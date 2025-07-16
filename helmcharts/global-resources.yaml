@@ -218,14 +218,14 @@ druid-operator:
 
 cassandra: 
   persistence:
-    size: 25Gi
+    size: 500Gi
   resources:
     requests:
       cpu: 520m
-      memory: 3Gi
+      memory: 6Gi
     limits:
       cpu: 750m
-      memory: 10Gi 
+      memory: 12Gi 
 
 druid-raw-cluster:
   druid_indexer_persistent_volume_size: 25Gi 
@@ -345,8 +345,8 @@ kafka:
     requests:
       cpu: 750m
       memory: 1024Mi
-    persistence:
-      size: 10Gi
+  persistence:
+    size: 500Gi
   metrics:
     kafka:
       resources:
@@ -374,10 +374,14 @@ neo4j:
 postgresql: 
   persistence:
     size: 25Gi
-  resources:
-    requests:
-      cpu: 250m
-      memory: 256Mi
+  primary:
+    resources:
+      limits:
+        cpu: 1
+        memory: 1024MiMi
+      requests:
+        cpu: 250m
+        memory: 256Mi
 
 redis: 
   master:
@@ -387,10 +391,10 @@ redis:
       resources:
         limits:
           cpu: 0.5
-          memory: 2Gi
+          memory: 8Gi
         requests:
           cpu: 0.5
-          memory: 1Gi 
+          memory: 4Gi 
 
 spark:
   resources:
@@ -408,7 +412,7 @@ spark:
 
 zookeeper: 
   persistence:
-    size: 2Gi
+    size: 50Gi
   resources:
     limits:
       cpu: 256m

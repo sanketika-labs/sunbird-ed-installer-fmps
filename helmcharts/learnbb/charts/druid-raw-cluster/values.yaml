@@ -191,7 +191,7 @@ druid_indexer_tasklock_forceTimeChunkLock: false
 druid_historical_service: druid/historical
 druid_historical_port: 8084
 druid_historical_min_heap_size: 512M
-druid_historical_max_heap_size: 750M
+druid_historical_max_heap_size: 2048M
 druid_historical_max_direct_size: 512M
 
 
@@ -310,6 +310,12 @@ druid_router_managementProxy_enabled: True
 serviceAccount:
   # Specifies whether a service account should be created
   create: false
+  # Annotations to add to the service account
+  annotations:
+    serviceAccountName: ""
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: 
 
-# commonAnnotations:
-#   reloader.stakater.com/auto: "true"
+commonAnnotations:
+  reloader.stakater.com/auto: "true"

@@ -148,9 +148,7 @@ global:
   # -- configures DNS service namespace
   dnsNamespace: "kube-system"
 
-commonAnnotations:
-  reloader.stakater.com/auto: "true"
-  service.beta.kubernetes.io/azure-load-balancer-external: "true" 
+commonAnnotations: {}
 
 merge_domain: "merge.example.com"
 merge_domain_status: true

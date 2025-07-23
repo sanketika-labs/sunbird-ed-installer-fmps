@@ -410,7 +410,7 @@ spark:
     spark_data_pvc:
       size: 50Gi
     log_data_pvc:
-      size: 250Gi    
+      size: 50Gi
 
 #Obsrvbb
 analytics:

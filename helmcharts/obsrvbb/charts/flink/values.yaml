@@ -601,8 +601,8 @@ flink_jobs:
       scheduler-mode: reactive
       heartbeat.timeout: 8000
       heartbeat.interval: 5000
-      taskmanager.memory.process.size: 1700m
-      jobmanager.memory.process.size: 1600m
+      taskmanager.memory.process.size: 2028m
+      jobmanager.memory.process.size: 2028m
     job_classname: org.sunbird.dp.denorm.task.DenormalizationStreamTask
 
   summary-denormalization:

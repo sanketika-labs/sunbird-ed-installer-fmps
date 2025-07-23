@@ -29,10 +29,10 @@ redis: &redis
     resources:
       limits:
         cpu: 0.5
-        memory: 2Gi
+        memory: 8Gi
       requests:
         cpu: 0.5
-        memory: 1Gi 
+        memory: 4Gi 
 
 cassandra: &cassandra
   enabled: true
@@ -52,14 +52,14 @@ cassandra: &cassandra
   commonAnnotations:
     "helm.sh/hook-weight": "-5"
   persistence:
-    size: 25Gi
+    size: 500Gi
   resources:
     requests:
       cpu: 520m
-      memory: 4Gi
+      memory: 6Gi
     limits:
       cpu: 750m
-      memory: 10Gi #tested with memory less than 10Gi, but the application encountered Out Of Memory (OOM) issues during execution
+      memory: 12Gi #tested with memory less than 10Gi, but the application encountered Out Of Memory (OOM) issues during execution
 
 postgresql: &postgresql
   enabled: true
@@ -83,7 +83,7 @@ postgresql: &postgresql
   primary:
     resources:
       limits:
-        cpu: 250m
+        cpu: 512m
         memory: 512Mi
       requests:
         cpu: 250m
@@ -96,7 +96,7 @@ zookeeper: &zookeeper
   host: "zookeeper"
   port: 2181
   persistence:
-    size: 2Gi
+    size: 50Gi
   resources:
     limits:
       cpu: 256m
@@ -118,7 +118,7 @@ kafka: &kafka
     repository: bitnami/kafka
     tag: 3.3.1-debian-11-r25
   persistence:
-    size: 25Gi
+    size: 500Gi
   livenessProbe:
     enabled: true
     initialDelaySeconds: 30

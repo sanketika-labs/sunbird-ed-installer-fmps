@@ -138,4 +138,3 @@ global:
     port: 9042
   redis:
     host: redis-master
-    port: 6379

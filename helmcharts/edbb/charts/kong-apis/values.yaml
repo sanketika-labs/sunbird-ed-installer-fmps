@@ -50,6 +50,7 @@ x_medium_rate_limit_per_hour: 5000
 large_rate_limit_per_hour: 10000
 x2_large_rate_limit_per_hour: 15000
 x_large_rate_limit_per_hour: 30000
+contentread_rate_limit_per_hour: 60000
 
 # Default max request size in MB
 small_request_size_limit: 1

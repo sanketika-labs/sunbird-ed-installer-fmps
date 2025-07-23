@@ -80,23 +80,14 @@ player:
       cpu: 1
       memory: 1G      
 
-report:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 100Mi
-    limits:
-      cpu: 1
-      memory: 1G
-
-router: 
+report: 
   resources:
     requests:
       cpu: 100m
       memory: 100Mi
     limits:
       cpu: 1000m
-      memory: 1024Mi
+      memory: 1G
     
 #inquirybb
 assessment:
@@ -107,7 +98,8 @@ assessment:
     limits:
       cpu: 1
       memory: 1G
-flink:
+      
+flink: &flink
   resources:
     requests:
       cpu: 100m
@@ -115,6 +107,15 @@ flink:
     limits:
       cpu: 1
       memory: 2048Mi  
+
+inquirybb:
+  flink: *flink
+
+knowledgebb:
+  flink: *flink
+
+learnbb:
+  flink: *flink
 
 #knowledgebb
 content:
@@ -162,7 +163,7 @@ taxonomy:
       memory: 1024Mi
 
 #learnbb
-adminutil:
+adminutils:
   resources:
     requests:
       cpu: 100m
@@ -216,7 +217,7 @@ druid-operator:
       cpu: 1
       memory: 1024Mi   
 
-cassandra: 
+cassandra:
   persistence:
     size: 500Gi
   resources:
@@ -228,51 +229,51 @@ cassandra:
       memory: 12Gi 
 
 druid-raw-cluster:
-  druid_indexer_persistent_volume_size: 25Gi 
-  druid_historical_persistent_volume_size: 25Gi
+  druid_indexer_persistent_volume_size: 50Gi 
+  druid_historical_persistent_volume_size: 500Gi
   resources:
     druid_broker:
       requests:
         cpu: 100m
         memory: 1024Mi
       limits:
-        cpu: 200m
-        memory: 2048Mi
+       cpu: 200m
+       memory: 2048Mi
     druid_coordinator:
       requests:
         cpu: 250m
         memory: 750Mi
       limits:
-        cpu: 250m
-        memory: 1024Mi
+       cpu: 250m
+       memory: 2048Mi
     druid_overlord:
       requests:
         cpu: 250m
         memory: 750Mi
       limits:
-        cpu: 250m
-        memory: 1024Mi
+       cpu: 250m
+       memory: 1024Mi
     druid_historical:
       requests:
         cpu: 750m
         memory: 512Mi
       limits:
-        cpu: 1
-        memory: 2048Mi
+       cpu: 1000m
+       memory: 4096Mi
     druid_indexer:
       requests:
         cpu: 200m
-        memory: 10Gi
+        memory: 8Gi
       limits:
-        cpu: 200m
-        memory: 11Gi
+       cpu: 200m
+       memory: 16Gi
     druid_router:
       requests:
         cpu: 250m
         memory: 500Mi
       limits:
-        cpu: 512m
-        memory: 1024Mi
+       cpu: 512m
+       memory: 1024Mi
 
 groups:
   resources:
@@ -347,79 +348,69 @@ kafka:
       memory: 1024Mi
   persistence:
     size: 500Gi
-  metrics:
-    kafka:
-      resources:
-        limits:
-          cpu: 100m
-          memory: 512Mi
-        requests:
-          cpu: 100m
-          memory: 256Mi
+  zookeeper:  
+    persistence:
+      size: 50Gi
+    resources:
+      limits:
+        cpu: 256m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
 
 neo4j:
   resources:
     requests:
       cpu: "0.5"
-      memory: "2Gi"
+      memory: "1Gi"
     limits:
       cpu: "1"
-      memory: "4Gi"
+      memory: "2Gi"
   neo4j:
     pvc:
       resources:
         requests:
-          storage: 25Gi
+          storage: 100Gi
 
 postgresql: 
   persistence:
-    size: 25Gi
-  primary:
-    resources:
-      limits:
-        cpu: 1
-        memory: 1024MiMi
-      requests:
-        cpu: 250m
-        memory: 256Mi
+    size: 100Gi
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 256Mi
 
 redis: 
   master:
     persistence:
       size: 25Gi
     primary:
-      resources:
-        limits:
-          cpu: 0.5
-          memory: 8Gi
-        requests:
-          cpu: 0.5
-          memory: 4Gi 
+    resources:
+      limits:
+        cpu: 0.5
+        memory: 8Gi
+      requests:
+        cpu: 0.5
+        memory: 4Gi 
 
-spark:
-  resources:
-    limits:
-      cpu: 0.5
-      memory: 2Gi
-    requests:
-      cpu: 0.5
-      memory: 1Gi
+spark: 
+  master:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
   persistence:
     spark_data_pvc:
-      size: 25Gi
+      size: 50Gi
     log_data_pvc:
-      size: 25Gi   
-
-zookeeper: 
-  persistence:
-    size: 50Gi
-  resources:
-    limits:
-      cpu: 256m
-      memory: 512Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi 
+      size: 50Gi
 
 #Obsrvbb
 analytics:
@@ -432,21 +423,12 @@ analytics:
       memory: 2G
 
 # secor:
-#   resources:
+#   baseconfig:
 #     storage:
 #       size: 10Gi
 #     requests:
 #       cpu: 500m
 #       memory: 700Mi
-
-submit-ingestion:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 100Mi
-    limits:
-      cpu: 1
-      memory: 1024Mi
 
 superset:
   resources:
@@ -496,7 +478,7 @@ kubernetes-dashboard:
         limits:
           cpu: 250m
           memory: 400Mi
-  metricsScrapper:
+  metricsScraper:
     containers:
       resources:
         requests:
@@ -516,14 +498,15 @@ promtail:
       memory: 128Mi
 
 reloader:
-  deployment:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: 1
-        memory: 1G
+  reloader:
+    deployment:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          cpu: 1000m
+          memory: 1G
 
 kube-prometheus-stack:
   alertmanager:
@@ -536,14 +519,7 @@ kube-prometheus-stack:
           cpu: "0.1"
           memory: 128Mi
   prometheusOperator:
-    resources:
-      limits:
-        cpu: 0.1
-        memory: 512Mi
-      requests:
-        cpu: 0.1
-        memory: 128Mi
-    prometheusConfigReloader:
+    prometheusConfigReloader: 
       resources:
         requests:
           cpu: 200m
@@ -576,7 +552,7 @@ velero:
       memory: 1024Mi
     requests:
       cpu: 0.1
-      memory: 512Mi
+      memory: 250Mi
   nodeAgent:
     resources:
       requests:
@@ -591,9 +567,9 @@ elasticsearch:
     resources:
       requests:
         cpu: "1"
-        memory: "2Gi"
+        memory: "4Gi"
       limits:
         cpu: "2"
-        memory: "4Gi"
+        memory: "8Gi"
     persistence:
-      size: 25Gi
+      size: 100Gi
